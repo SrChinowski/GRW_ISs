@@ -1,0 +1,70 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.779
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityLib", "EntityLib\EntityLib.csproj", "{FE37FD0D-C4BC-425E-9DF9-D846CDF0E051}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestEntityLib", "TestEntityLib\TestEntityLib.csproj", "{6B3E45FD-9360-4946-B063-15D847BAF1C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IncentiveAPI", "CognisoWA\IncentiveAPI.csproj", "{B9D271DA-431A-4979-BF2F-CFD62405FBDD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IncentiveSite", "IncentiveSite\IncentiveSite.csproj", "{395CCD79-78B2-4A59-B6FF-B56FFB638065}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IncentiveResetPasswordSite", "IncentiveResetPasswordSite\IncentiveResetPasswordSite.csproj", "{97725A6C-ABBE-4C87-BB4F-2D7738419DCD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FE37FD0D-C4BC-425E-9DF9-D846CDF0E051}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE37FD0D-C4BC-425E-9DF9-D846CDF0E051}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE37FD0D-C4BC-425E-9DF9-D846CDF0E051}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE37FD0D-C4BC-425E-9DF9-D846CDF0E051}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B3E45FD-9360-4946-B063-15D847BAF1C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B3E45FD-9360-4946-B063-15D847BAF1C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B3E45FD-9360-4946-B063-15D847BAF1C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B3E45FD-9360-4946-B063-15D847BAF1C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9D271DA-431A-4979-BF2F-CFD62405FBDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9D271DA-431A-4979-BF2F-CFD62405FBDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9D271DA-431A-4979-BF2F-CFD62405FBDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9D271DA-431A-4979-BF2F-CFD62405FBDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{395CCD79-78B2-4A59-B6FF-B56FFB638065}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{395CCD79-78B2-4A59-B6FF-B56FFB638065}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{395CCD79-78B2-4A59-B6FF-B56FFB638065}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{395CCD79-78B2-4A59-B6FF-B56FFB638065}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97725A6C-ABBE-4C87-BB4F-2D7738419DCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97725A6C-ABBE-4C87-BB4F-2D7738419DCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97725A6C-ABBE-4C87-BB4F-2D7738419DCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97725A6C-ABBE-4C87-BB4F-2D7738419DCD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C48FBD50-27E7-4E49-AEC7-0CF832F615DE}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 6
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://grwit.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = CognisoWA\\IncentiveAPI.csproj
+		SccProjectName1 = CognisoWA
+		SccLocalPath1 = CognisoWA
+		SccProjectUniqueName2 = EntityLib\\EntityLib.csproj
+		SccProjectName2 = EntityLib
+		SccLocalPath2 = EntityLib
+		SccProjectUniqueName3 = IncentiveResetPasswordSite\\IncentiveResetPasswordSite.csproj
+		SccProjectName3 = IncentiveResetPasswordSite
+		SccLocalPath3 = IncentiveResetPasswordSite
+		SccProjectUniqueName4 = IncentiveSite\\IncentiveSite.csproj
+		SccProjectName4 = IncentiveSite
+		SccLocalPath4 = IncentiveSite
+		SccProjectUniqueName5 = TestEntityLib\\TestEntityLib.csproj
+		SccProjectName5 = TestEntityLib
+		SccLocalPath5 = TestEntityLib
+	EndGlobalSection
+EndGlobal

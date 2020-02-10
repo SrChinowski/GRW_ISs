@@ -1,0 +1,52 @@
+﻿
+.btnView {
+    font-size: 1.2em;
+}
+
+.btnEdit {
+    font-size: 1.2em;
+}
+
+.btnDelete {
+    font-size: 1.2em;
+}
+
+.panel-body {
+    padding-top: 5%;
+}
+
+form {
+    font-size: smaller;
+    font-family: 'Segoe UI';
+}
+
+.ui-state-default {
+    border: 1px solid #c5c5c5;
+    background: #f6f6f6;
+    font-weight: normal;
+    color: #454545;
+}
+
+.ui-state-highlight {
+    border: 1px solid blanchedalmond;
+    background: FloralWhite;
+    color: #777620;
+}
+
+#sortable1, #sortable2 {
+    border: 2px solid #eee;
+    width: 100%;
+    min-height: 100%;
+    list-style-type: none;
+    margin: 0;
+    padding: 5px 0 0 0;
+    float: inherit;
+    margin-right: 10px;
+}
+
+    #sortable1 li, #sortable2 li {
+        margin: 0 5px 5px 5px;
+        padding: 5px;
+        font-size: 1.2em;
+        width: 50%;
+    }

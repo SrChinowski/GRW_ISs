@@ -1,0 +1,7 @@
+﻿{
+    "CognitumConfig": {
+        "DBStr": "Server=localhost;Database=Cognitumdes;Trusted_Connection=True;",
+        "EmailFrom": "aordonez.melgarejo@outlook.com",
+        "EmailTo": "adrian.ordonez@grw.com.mx"
+    }
+}

@@ -1,0 +1,446 @@
+﻿
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:600);
+@import url('https://fonts.googleapis.com/css?family=Amatic+SC&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Raleway&display=swap');
+
+/*      [ MENU LATERAL ]        */
+
+
+.body{
+    margin:0;
+}
+
+.menu{
+    display: none;
+}
+
+.sidenav {
+    font-family: 'Raleway';
+    z-index: 1;
+    font-size: 17px;
+    padding: 0;
+    position: fixed;
+    width: 45px;
+    height: 100%;
+    box-shadow: 5px 0px 10px 0px #a0acbd;
+    background-image: linear-gradient(to top left, #218dbb 25%, #29afe8 55%, white 200%);
+    transition: all .3s ease-out;
+}
+
+.sidenav .main-buttons {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 55px;
+    color: #fff;
+}
+
+.sidenav .main-buttons li {
+    display: flex;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+}
+
+.sidenav .capital {
+    display: flex;
+}
+
+.sidenav .main-buttons span {
+    margin-right: 30px;
+}
+
+.sidenav:hover {
+    width: 210px;
+    transition: all .3s ease-out;
+}
+
+
+.sidenav:hover .menu {
+    display: flex;
+    align-items: center;
+    transition: all .3s ease-out;
+}
+
+#table {
+    padding: 20px;
+    margin: 20px 0 20px 0 !important;
+    border: 1px solid lightgray;
+    border-radius: 15px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 6px 6px rgba(0,0,0,0.24);
+}
+
+.sidenav .main-buttons li:hover {
+  cursor: pointer;
+  text-align: center;
+  color: white;
+  border: none;
+  outline: none;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  background-color: #00a7ee;
+  font-weight: 550;
+  letter-spacing: .5px;
+  transition: all .2s ease-in;
+}
+#Table {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 14px;
+}
+
+
+#Table td, #Table th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+
+#Table tr:nth-child(even){background-color: #f2f2f2;}
+
+
+#Table tr:hover {background-color: #ddd;}
+
+
+#Table th {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  text-align: left;
+  background-color: #0066CC;
+  color: white;
+}
+
+
+/* -------------------------- */
+button:hover {
+  opacity: 0.8;
+}
+
+
+/* -------------------------- */
+.cancelbtn {
+  padding: 10px 18px;
+  margin: 8px 0;
+  background-color: #4CAF50;
+  border: none;
+  cursor: pointer;
+  color: white;
+  width: 100%;
+}
+
+
+/* -------------------------- */
+.imgcontainer {
+  text-align: center;
+  margin: 24px 0 12px 0;
+  position: relative;
+}
+
+
+.container {
+  padding: 16px;
+}
+
+
+/* -------------------------- */
+.modal {
+  display: none; 
+  position: fixed; 
+  z-index: 1; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%;
+  overflow: auto; 
+  background-color: rgb(0,0,0); 
+  background-color: rgba(0,0,0,0.4); 
+  padding-top: 60px;
+}
+  
+  
+  /* -------------------------- */
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto 15% auto; 
+  border: 1px solid #888;
+  width: 80%;
+}
+
+.btnAdd{
+    color: white;
+    background-color: green;
+    border-radius: 50%;
+    border: none;
+    width: 30px;
+    height: 30px;
+}
+/* -------------------------- */
+.close {
+  position: absolute;
+  right: 25px;
+  top: 0;
+  color: #000;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+input {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+
+/* -------------------------- */
+select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.close:hover,
+.close:focus {
+  color: red;
+  cursor: pointer;
+}
+.animate {
+  -webkit-animation: animatezoom 0.6s;
+  animation: animatezoom 0.6s
+}
+
+
+@-webkit-keyframes animatezoom {
+  from {-webkit-transform: scale(0)} 
+  to {-webkit-transform: scale(1)}
+}
+  
+@keyframes animatezoom {
+  from {transform: scale(0)} 
+  to {transform: scale(1)}
+}
+
+
+/* -------------------------- */
+@media screen and (max-width: 300px) {
+  span.psw {
+      display: block;
+      float: none;
+  }
+  .cancelbtn {
+      width: 100%;
+  }
+}
+
+
+.move-left {
+    position: relative;
+    left: 11%;
+    filter: blur(8px);
+    width: 89%;
+    z-index: -1;
+}
+
+
+/*      [ COONTENIDO ]        */
+
+.main {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+}
+
+.menu2 {
+    display: none;
+}
+
+.content {
+    width: 97%;
+    position: relative;
+    left: 50px;
+    right: 0;
+    transition: all .3s ease-out;
+}
+
+.capital {
+    color: white;
+    font-size: 25px;
+    margin-left: 45px;
+}
+
+#mainContent {
+    padding: 0 3%;
+}
+
+#mainContent h1{
+    margin-bottom: 1%;
+}
+
+
+
+#mainButton {
+    padding: 5px;
+    text-align: center;
+    width: 10%;
+    font-family: 'Raleway';
+    color: white;
+    border: none;
+    outline: none;
+    font-size: 19px;
+    font-weight: 200;
+    overflow: hidden;
+    position: relative;
+    left: 89%;
+    margin: 10px;
+    border-radius: 2px;
+    letter-spacing: 2px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    text-transform: uppercase;
+    background-color: #00a7ee;
+    transition: all .2s ease-in;
+}
+
+
+.green-dot {
+    height: 20px;
+    width: 20px;
+    background-color: green;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .red-dot {
+    height: 20px;
+    width: 20px;
+    background-color: red;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+.btno:hover {
+    cursor: default;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    text-align: center;
+    font-family: 'Raleway';
+    color: white;
+    border: none;
+    outline: none;
+    letter-spacing: 2px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    background-color: #00a7ee;
+    transition: all .2s ease-in;
+}
+
+.btno:hover:after {
+    transform: translateX(100%) skewX(-30deg);
+}
+
+.btno:active {
+    box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+    
+}
+
+.btno:active .modal {
+    transform: scale(1, 1);
+}
+
+.btno:after {
+    top: -50%;
+    content: '';
+    width: 150%;
+    height: 200%;
+    position: absolute;
+    left: calc(-150% - 40px);
+    background-color: rgba(255,255,255,0.2);
+    transform: skewX(-40deg);
+    transition: all 0.1s ease-out;
+}
+
+.btno-text {
+    display: inline-flex;
+}
+
+
+.btno-text:hover {
+    cursor: pointer;
+}
+
+.form {
+    position: fixed;
+    left: 50%;
+    top: 60%;
+}
+
+
+/*----------- DROP DOWN ----------*/
+.custom-select {
+  position: relative;
+  font-family: Arial;
+  width: 10%;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  border-radius: 5px;
+}
+
+.custom-select select {
+  display: none; /*hide original SELECT element:*/
+}
+
+.select-selected {
+  background-color:#00a7ee;
+}
+
+/*style the arrow inside the select element:*/
+.select-selected:after {
+  position: absolute;
+  content: "";
+  top: 14px;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-color: #fff transparent transparent transparent;
+}
+
+/*point the arrow upwards when the select box is open (active):*/
+.select-selected.select-arrow-active:after {
+  border-color: transparent transparent #fff transparent;
+  top: 7px;
+}
+
+/*style the items (options), including the selected item:*/
+.select-items div,.select-selected {
+  
+  color: #ffffff;
+  padding: 8px 16px;
+  border: 1px solid transparent;
+  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+  cursor: pointer;
+  user-select: none;
+}
+
+/*style items (options):*/
+.select-items {
+  position: absolute;
+  background-color:#00a7ee;
+  
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
+}
+
+/*hide the items when the select box is closed:*/
+.select-hide {
+  display: none;
+}
+
+.select-items div:hover, .same-as-selected {
+  background-color: rgba(0, 0, 0, 0.1);
+}
