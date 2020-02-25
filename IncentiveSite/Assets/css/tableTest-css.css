@@ -61,7 +61,7 @@
     transition: all .3s ease-out;
 }
 
-#table {
+.TableX {
     padding: 20px;
     margin: 20px 0 20px 0 !important;
     border: 1px solid lightgray;
@@ -71,7 +71,6 @@
 
 .sidenav .main-buttons li:hover {
   cursor: pointer;
-  text-align: center;
   color: white;
   border: none;
   outline: none;
@@ -81,33 +80,48 @@
   letter-spacing: .5px;
   transition: all .2s ease-in;
 }
-#Table {
+
+.dropdown-content {
+    display: none;
+    position: relative;
+    background-color: transparent;
+    z-index: 1;
+}
+
+.submenu-item {
+    color: #FFF !important;
+    text-decoration: none;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    padding-left: 20px;
+}
+
+    .submenu-item:hover {
+        background-color: #36c0fc !important
+    }
+
+.dropdown:hover .dropdown-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: transparent;
+}
+
+.dropdown {
+    display: flex;
+    flex-direction: column;
+}
+
+.TableX {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   border-collapse: collapse;
   width: 100%;
   font-size: 14px;
 }
 
-
-#Table td, #Table th {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
-
-
-#Table tr:nth-child(even){background-color: #f2f2f2;}
-
-
-#Table tr:hover {background-color: #ddd;}
-
-
-#Table th {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  text-align: left;
-  background-color: #0066CC;
-  color: white;
-}
 
 
 /* -------------------------- */
@@ -165,7 +179,7 @@ button:hover {
   width: 80%;
 }
 
-.btnAdd{
+.btnAdd, .btnAdd2{
     color: white;
     background-color: green;
     border-radius: 50%;
@@ -444,3 +458,12 @@ select {
 .select-items div:hover, .same-as-selected {
   background-color: rgba(0, 0, 0, 0.1);
 }
+
+#gantt {
+    padding: 20px;
+    margin: 20px 0 20px 0 !important;
+    border: 1px solid lightgray;
+    border-radius: 15px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 6px 6px rgba(0,0,0,0.24);
+}
+

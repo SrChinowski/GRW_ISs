@@ -296,6 +296,7 @@ namespace EntityLib
             }
             return sqlStmt;
         }
+
         private SqlStmt createSelectRecord(Entity _entity)
         {
             SqlStmt sqlStmt = new SqlStmt();

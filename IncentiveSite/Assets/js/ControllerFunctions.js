@@ -20,7 +20,10 @@ var JoinType = {
     Right: 3,
 }
 
-var ActiveList = "Proyecto"
+var ActiveList = "Proyecto";
+var SecundaryList = ["ActividadesLog"];
+var New = true;
+var SaveList = "";
 
 ///ENTITY CLASS///
 function Entity(name) {
@@ -74,7 +77,7 @@ function listFields(fields, entity) {
 
     for (j = 0; fields.length > j; j++) {
         var vTemp = fields[j].split(".");
-        var atr = new Attribute(vTemp[0], "", vTemp[2], vTemp[1], vTemp[3]);
+        var atr = new Attribute(vTemp[0], "", vTemp[2], vTemp[1], vTemp[3], vTemp[4], vTemp[2], vTemp[5]);
         entity.Attributes.push(atr);
     }
     return entity;
@@ -355,14 +358,14 @@ function getListEntityMain(nameEntity, _tableId, OptionsAllowed, whereFilter = n
                 case 'Retrasados':
                     WhereAttr = $.extend({}, entity.Attributes[3]);
 
-                    var dateOffset = (24 * 60 * 60 * 1000) * 14; //7 days
+                    var dateOffset = (24 * 60 * 60 * 1000);
                     var myDate = new Date();
                     myDate.setTime(myDate.getTime() - dateOffset);
                     var filter = "";
                     filter += myDate.getFullYear().toString() + '-' + (myDate.getMonth() + 1).toString() + '-' + myDate.getDate().toString();
                     WhereAttr.AttrValue = filter;
 
-                    var where = new Where(WhereAttr, whereOperator.GreaterEqual);
+                    var where = new Where(WhereAttr, whereOperator.LowerEqual);
                     lwhere.push(where);
 
                     break;
@@ -371,12 +374,12 @@ function getListEntityMain(nameEntity, _tableId, OptionsAllowed, whereFilter = n
 
                     var dateOffset = (24 * 60 * 60 * 1000) * 14; //7 days
                     var myDate = new Date();
-                    myDate.setTime(myDate.getTime() - dateOffset);
+                    myDate.setTime(myDate.getTime() + dateOffset);
                     var filter = "";
-                    filter += myDate.getFullYear().toString() + '-' + (myDate.getMonth()+1).toString() + '-' + myDate.getDate().toString();
+                    filter += myDate.getFullYear().toString() + '-' + (myDate.getMonth() + 1).toString() + '-' + myDate.getDate().toString();
                     WhereAttr.AttrValue = filter;
 
-                    var where = new Where(WhereAttr, whereOperator.GreaterEqual);
+                    var where = new Where(WhereAttr, whereOperator.LowerEqual);
                     lwhere.push(where);
 
                     WhereAttr = $.extend({}, entity.Attributes[3]);
@@ -387,7 +390,22 @@ function getListEntityMain(nameEntity, _tableId, OptionsAllowed, whereFilter = n
                     filter += myDate.getFullYear().toString() + '-' + (myDate.getMonth() + 1).toString() + '-' + myDate.getDate().toString();
                     WhereAttr.AttrValue = filter;
 
-                    var where = new Where(WhereAttr, whereOperator.LowerEqual);
+                    var where = new Where(WhereAttr, whereOperator.GreaterEqual);
+                    lwhere.push(where);
+
+                    break;
+                default:
+                    if (ActiveList != 'Transacciones') {
+                        WhereAttr = $.extend({}, entity.Attributes[3]);
+                        WhereAttr.AttrType = 'int';
+                    }
+                    else {
+                        WhereAttr = $.extend({}, entity.Attributes[0]);
+                    }
+                    var filter = whereFilter;
+                    WhereAttr.AttrValue = filter;
+
+                    var where = new Where(WhereAttr, whereOperator.Equal);
                     lwhere.push(where);
 
                     break;
@@ -424,6 +442,10 @@ function fillTable(nameEntity, objdata, options, TableId, extras = true) {
     var columns = [];
     var cols = [];
 
+    if (nameEntity == 'Transacciones') {
+        options.push('Añadir Actividad');
+    }
+
     var columnNames = Object.keys(objdata[0]);
     for (var i = 0; i < options.length; i++) {
         columns.push(null);
@@ -441,7 +463,7 @@ function fillTable(nameEntity, objdata, options, TableId, extras = true) {
 
     var vHtmlTable = createTableHTML(nameEntity, columns, options);
 
-    $('#'+TableId).html(vHtmlTable);
+    $('#' + TableId).html(vHtmlTable);
 
     if (extras) {
         var table = $('#dt-' + nameEntity).DataTable({
@@ -453,10 +475,9 @@ function fillTable(nameEntity, objdata, options, TableId, extras = true) {
                 width: "5%",
                 className: 'text-center',
                 render: function (a, b, data, d) {
-
                     var buttonID = data.Clave;
                     var buttons = ''
-                    buttons = '<i  id="' + buttonID + '" class="ms-Icon ms-Icon--EditNote btnEdit" style="cursor: pointer;" aria-hidden="true"></i>';
+                    buttons = '<i  id="' + buttonID + '" class="ms-Icon ms-Icon--EditNote btnEdit btnTable" style="cursor: pointer;" aria-hidden="true"></i>';
                     return buttons;
                 }
             },
@@ -467,7 +488,18 @@ function fillTable(nameEntity, objdata, options, TableId, extras = true) {
                 render: function (a, b, data, d) {
                     var buttonID = data.Clave;
                     var buttons = ''
-                    buttons = '<i  id="' + buttonID + '" class="ms-Icon ms-Icon--Delete btnDelete" style="cursor: pointer;" aria-hidden="true"></i>';
+                    buttons = '<i  id="' + buttonID + '" class="ms-Icon ms-Icon--Delete btnDelete btnTable" style="cursor: pointer;" aria-hidden="true"></i>';
+                    return buttons;
+                }
+            },
+            {
+                targets: 'Añadir Actividad',
+                className: 'text-center',
+                width: "5%",
+                render: function (a, b, data, d) {
+                    var buttonID = data.Clave;
+                    var buttons = ''
+                    buttons = '<i  id="' + buttonID + '" class="ms-Icon ms-Icon--AddTo btnAddActivity btnTable" style="cursor: pointer;" aria-hidden="true"></i>';
                     return buttons;
                 }
             }
@@ -543,7 +575,7 @@ function fillTable(nameEntity, objdata, options, TableId, extras = true) {
 function createTableHTML(nameEntity, columns, options) {
     var vHtmlTable = "";
     vHtmlTable =
-        "<table id='dt-" + nameEntity + "'" + " class='display dataTable' style='width:100%;'>" +
+        "<table id='dt-" + nameEntity + "'" + " class='display dataTable table mt-2' style='width:100%;'>" +
         "<thead>" +
         "<tr>";
     options.forEach(
@@ -711,13 +743,13 @@ function formFillFields(objdata, nameEntity) {
         var htmlObject = "";
         switch (vTemp[3]) {
             case "input":
-                htmlObject += "#txt_" + vTemp[2];
+                htmlObject += "#txt_" + vTemp[1];
                 break;
             case "select":
-                htmlObject += "#drp_" + vTemp[2];
+                htmlObject += "#drp_" + vTemp[1];
                 break;
             case "inputDate":
-                htmlObject += "#txt_" + vTemp[2];
+                htmlObject += "#txt_" + vTemp[1];
                 break;
         }
         try {
@@ -770,77 +802,82 @@ function formGetQuery(nameEntity, id) {
 
 //Obtiene los valores dentro de un formulario y llama la función para guardar dichos valores a base de datos
 function formEntityToSave(page, nameEntity) {
-    var newEntity = true;
-
-    var fields = getFieldsWithChilds(nameEntity);
-
-    var vTemp = fields[0].split(".");
-    var id = document.getElementById("FootForm").innerHTML;
-    var entity = new Entity(nameEntity);
-    if (id != 'NUEVO' ) {
-        newEntity = false;
-        idRegister = id;
+    if (nameEntity == 'Transacciones' && New == false) {
+        $(document).ready(registerTrans(document.getElementById('txt_Clave').value));
     }
     else {
-        var htmlObject = "";
-        switch (vTemp[3]) {
-            case "input":
-                htmlObject += "#txt_" + vTemp[2];
-                break;
-            case "select":
-                htmlObject += "#drp_" + vTemp[2];
-                break;
-            case "inputDate":
-                htmlObject += "#txt_" + vTemp[2];
-                break;
-        }
-        idRegister = $(htmlObject).val();
-    }
+        var newEntity = true;
 
-    var atr = new Attribute(vTemp[0], idRegister, vTemp[2], vTemp[1], vTemp[3]);
-    entity.Attributes.push(atr);
+        var fields = getFieldsWithChilds(nameEntity);
 
-    for (k = 1; k < fields.length; k++) {
-        vTemp = fields[k].split(".");
-        var htmlObject = "";
-        switch (vTemp[3]) {
-            case "input":
-                htmlObject += "#txt_" + vTemp[2];
-                break;
-            case "select":
-                htmlObject += "#drp_" + vTemp[2];
-                break;
-            case "inputDate":
-                htmlObject += "#txt_" + vTemp[2];
-                break;
-        }
-        var value = $(htmlObject).val();
-        if (value != 0 || vTemp[3] != "select") {
-            var atr = new Attribute(vTemp[0], value, typeof(value), vTemp[1], vTemp[3]);
-            entity.Attributes.push(atr);
-        }
-    };
-
-    if (newEntity == true) {
-        wsSaveEntity(entity, page, idRegister);
-    }
-
-    else {
         var vTemp = fields[0].split(".");
+        var id = document.getElementById("FootForm").innerHTML;
+        var entity = new Entity(nameEntity);
+        if (id != 'NUEVO' && SaveList != 'Trans_Act') {
+            newEntity = false;
+            idRegister = id;
+        }
+        else {
+            var htmlObject = "";
+            switch (vTemp[3]) {
+                case "input":
+                    htmlObject += "#txt_" + vTemp[1];
+                    break;
+                case "select":
+                    htmlObject += "#drp_" + vTemp[1];
+                    break;
+                case "inputDate":
+                    htmlObject += "#txt_" + vTemp[1];
+                    break;
+            }
+            idRegister = $(htmlObject).val();
+        }
 
         var atr = new Attribute(vTemp[0], idRegister, vTemp[2], vTemp[1], vTemp[3]);
+        entity.Attributes.push(atr);
 
-        var lwhere = [];
-        var where = new Where(atr, whereOperator.Equal);
-        lwhere.push(where);
+        for (k = 1; k < fields.length; k++) {
+            vTemp = fields[k].split(".");
+            var htmlObject = "";
+            switch (vTemp[3]) {
+                case "input":
+                    htmlObject += "#txt_" + vTemp[1];
+                    break;
+                case "select":
+                    htmlObject += "#drp_" + vTemp[1];
+                    break;
+                case "inputDate":
+                    htmlObject += "#txt_" + vTemp[1];
+                    break;
+            }
+            var value = $(htmlObject).val();
+            if (value != 0 || vTemp[3] != "select") {
+                var atr = new Attribute(vTemp[0], value, typeof (value), vTemp[1], vTemp[3]);
+                entity.Attributes.push(atr);
+            }
+        };
 
-        var lGroupWhere = [];
-        var groupWhere = new GroupWhere(logicalOperator.And, lwhere, logicalOperator.And);
+        if (newEntity == true) {
+            wsSaveEntity(entity, page, idRegister);
+        }
 
-        lGroupWhere.push(groupWhere);
-        entity.GroupWheres = lGroupWhere;
-        wsUpdateEntity(entity, page, idRegister);
+        else {
+            var vTemp = fields[0].split(".");
 
+            var atr = new Attribute(vTemp[0], idRegister, vTemp[2], vTemp[1], vTemp[3]);
+
+            var lwhere = [];
+            var where = new Where(atr, whereOperator.Equal);
+            lwhere.push(where);
+
+            var lGroupWhere = [];
+            var groupWhere = new GroupWhere(logicalOperator.And, lwhere, logicalOperator.And);
+
+            lGroupWhere.push(groupWhere);
+            entity.GroupWheres = lGroupWhere;
+            wsUpdateEntity(entity, page, idRegister);
+
+        }
     }
 }
 
@@ -876,10 +913,10 @@ function formControlsDisabled(val, nameEntity) {
         vTemp = fields[k].split(".");
         var htmlobject = "";
         if (vTemp[3] == "input") {
-            htmlobject += "#txt_" + vTemp[2];
+            htmlobject += "#txt_" + vTemp[1];
         }
         else {
-            htmlobject += "#drp_" + vTemp[2];
+            htmlobject += "#drp_" + vTemp[1];
         };
         $(htmlobject).prop("disabled", val);
     };
@@ -888,7 +925,7 @@ function formControlsDisabled(val, nameEntity) {
 //Realiza el código para formar un form
 function getForm(val, Save, Id) {
 
-    document.getElementById("TitleForm").innerHTML = ActiveList;
+    document.getElementById("TitleForm").innerHTML = val;
     if (Id == undefined) {
         document.getElementById("FootForm").innerHTML = "NUEVO";
     }
@@ -905,15 +942,15 @@ function getForm(val, Save, Id) {
         var htmlVar = "";
         switch (vTemp[3]) {
             case "input":
-                htmlTag += "txt_" + vTemp[2];
+                htmlTag += "txt_" + vTemp[1];
                 htmlVar += "<input class='w3-input w3-select w3-hover-light-gray w3-animate-input' ID='" + htmlTag + "' type='text' runat='server' placeholder='Ingrese el campo &quot;" + vTemp[1] + "&quot'></input>"
                 break;
             case "select":
-                htmlTag += "drp_" + vTemp[2];
+                htmlTag += "drp_" + vTemp[1];
                 htmlVar += "<select class='w3-input w3-select w3-hover-light-gray' ID='" + htmlTag + "' type='text' runat='server' placeholder='Ingrese el campo &quot;" + vTemp[1] + "&quot'></select>"
                 break;
             case "inputDate":
-                htmlTag += "txt_" + vTemp[2];
+                htmlTag += "txt_" + vTemp[1];
                 htmlVar += "<input class='w3-input w3-hover-light-gray w3-animate-input' ID='" + htmlTag + "' type='date' value='2020-01-01' min='2020-01-01' max='2050-12-31' runat='server' placeholder='Ingrese el campo &quot;" + vTemp[1] + "&quot'></input>"
                 break;
         }
@@ -950,23 +987,41 @@ function fillDropdown(nameEntity) {
             let vHTML = "<option value=''>" + "" + "</option>";
             vTemp = fields[k].split(".");
             let htmlObject = "";
-            htmlObject += "#drp_" + vTemp[2];
+            htmlObject += "#drp_" + vTemp[1];
 
             if (vTemp[3] == "select") {
-                var entity = getQueryCatalog(vTemp[2], vTemp[4], "Nombre");
-                wsGetListEntity(entity, function (val) {
-                    if (val != undefined) {
-                        if (val.length > 0) {
-                            $.each(val, function () {
+                if (vTemp[1] == "Nombre") {
+                    vHTML += "<option value='Proyecto 1'>Proyecto 1</option>";
+                    vHTML += "<option value='Proyecto 2'>Proyecto 2</option>";
+                    vHTML += "<option value='Proyecto 3'>Proyecto 3</option>";
+                    vHTML += "<option value='Proyecto 4'>Proyecto 4</option>";
+                    vHTML += "<option value='Proyecto 5'>Proyecto 5</option>";
+                    vHTML += "<option value='PruebaSave'>PruebaSave</option>";
+                    vHTML += "<option value='PruebaEdit'>PruebaEdit</option>";
 
-                                if (this[vTemp[4]] != '' && this.Nombre != '') {
-                                    vHTML += "<option value='" + this[vTemp[4]] + "'>" + this.Nombre + "</option>";
-                                }
-                            });
-                            $(htmlObject).html(vHTML);
+                    $(htmlObject).html(vHTML);
+                }
+                else {
+                    var entity = getQueryCatalog(vTemp[2], vTemp[4], vTemp[5]);
+                    wsGetListEntity(entity, function (val) {
+                        if (val != undefined) {
+                            if (val.length > 0) {
+                                $.each(val, function () {
+
+                                    if (this[vTemp[4]] != '' && (this.Nombre != '' || this.Tipo != '')) {
+                                        if (this.Nombre == undefined) {
+                                            vHTML += "<option value='" + this[vTemp[4]] + "'>" + this.Tipo + "</option>";
+                                        }
+                                        else {
+                                            vHTML += "<option value='" + this[vTemp[4]] + "'>" + this.Nombre + "</option>";
+                                        }
+                                    }
+                                });
+                                $(htmlObject).html(vHTML);
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         };
     }
@@ -975,81 +1030,6 @@ function fillDropdown(nameEntity) {
     }
 }
 
-//FALTAN DE CHECAR
-function fillKam() {
-    try {
-        var vHTML = "<option value=''>" + "" + "</option>";
-        var entity = getQueryCatalog("Customer", "KAMId", "KAMName");
-        var options = [];
-        var band = false;
-        wsGetListEntity(entity, function (val) {
-            if (val != undefined) {
-                if (val.length > 0) {
-                    $.each(val, function () {
-                        if (this.KAMId != '' && this.KAMName != '') {
-                            var KAMIdTemp = this.KAMId;
-                            options.forEach(function (item, index) {
-                                if (KAMIdTemp == options[index]) {
-                                    band = true;
-                                };
-                            });
-                            if (band == false) {
-                                vHTML += "<option value='" + this.KAMId + "'>" + this.KAMName + "</option>";
-                                options.push(this.KAMId);
-                            }
-                            else {
-                                band == false;
-                            };
-                        }
-
-                    });
-                    $('#drp_KAM').html(vHTML);
-                }
-            }
-        });
-    } catch (e) {
-        console.log(e.Message);
-    }
-
-}
-
-function fillCadena() {
-    try {
-        var vHTML = "<option value='0'>" + "1" + "</option>";
-        vHTML += "<option value='1'>" + "1" + "</option>";
-        var entity = getQueryCatalog("Customer", "CustId", "Name");
-
-
-        var atr = new Attribute('ParentCustId', "null", "string");
-        var lwhere = [];
-        var where = new Where(atr, whereOperator.IsNull);
-        lwhere.push(where);
-
-        var lGroupWhere = [];
-        var groupWhere = new GroupWhere(logicalOperator.And, lwhere, logicalOperator.And);
-
-        lGroupWhere.push(groupWhere);
-        entity.GroupWheres = lGroupWhere;
-
-
-
-        wsGetListEntity(entity, function (val) {
-            if (val != undefined) {
-                if (val.length > 0) {
-                    $.each(val, function () {
-                        if (this.CustId != '' && this.Name != '') {
-                            vHTML += "<option value='" + this.CustId + "'>" + this.Name + "</option>";
-                        }
-                    });
-                }
-            }
-        });
-        $('#drp_Cadena').html(vHTML);
-    } catch (e) {
-        console.log(e.Message);
-    }
-
-}
 
 //Funciones Removidas
 // getForm();
@@ -1069,3 +1049,194 @@ function fillCadena() {
 }*/
 
 
+
+$(document).on("change", "#txt_F_Planeada_Inicio", function () {
+
+    var int = document.getElementById("txt_TiempoEst").value
+    var dateOffset = (24 * 60 * 60 * 1000) * parseInt(int);
+    var myDate = new Date();
+    var FechaTemp = document.getElementById("txt_F_Planeada_Inicio").value;
+    var k = FechaTemp.split('-');
+    myDate.setFullYear(k[0], parseInt(k[1]) - 1, k[2]);
+
+
+    myDate.setTime(myDate.getTime() + dateOffset);
+
+    var filter = '';
+    filter += myDate.getFullYear().toString() + "-" + (myDate.getMonth() + 1).toString() + "-" + myDate.getDate().toString();
+    var string = filter.split('-');
+    var filter2 = '';
+    filter2 += string[0] + '-';
+    if (string[1].length == 1) {
+        filter2 += '0' + string[1] + '-';
+    }
+    else {
+        filter2 += '' + string[1] + '-';
+    }
+    if (string[2].length == 1) {
+        filter2 += '0' + string[2];
+    }
+    else {
+        filter2 += '' + string[2];
+    }
+    $('#txt_F_Planeada_Fin').val(filter2);
+
+});
+
+$(document).on("input", "#txt_TiempoEst", function () {
+
+    var int = document.getElementById("txt_TiempoEst").value
+    var dateOffset = (24 * 60 * 60 * 1000) * parseInt(int);
+    var myDate = new Date();
+    var FechaTemp = document.getElementById("txt_F_Planeada_Inicio").value;
+    var k = FechaTemp.split('-');
+    myDate.setFullYear(k[0], parseInt(k[1]) - 1, k[2]);
+
+
+    myDate.setTime(myDate.getTime() + dateOffset);
+
+    var filter = '';
+    filter += myDate.getFullYear().toString() + "-" + (myDate.getMonth() + 1).toString() + "-" + myDate.getDate().toString();
+    var string = filter.split('-');
+    var filter2 = '';
+    filter2 += string[0] + '-';
+    if (string[1].length == 1) {
+        filter2 += '0' + string[1] + '-';
+    }
+    else {
+        filter2 += '' + string[1] + '-';
+    }
+    if (string[2].length == 1) {
+        filter2 += '0' + string[2];
+    }
+    else {
+        filter2 += '' + string[2];
+    }
+    $('#txt_F_Planeada_Fin').val(filter2);
+
+});
+
+$("#dt-Proyecto").on('click-row.bs.table', function (e, row, $element) {
+    if (SecundaryList.length > 0) {
+        console.log("awñrfkamw");
+
+    }
+});
+
+$("#dt-Proyecto").on('click', 'tr', function (event) {
+    if (SecundaryList.length > 0) {
+        console.log("awñrfkamw");
+    }
+});
+
+function registerTrans(id) {
+    try {
+        var entity = new Entity('Trans_Act');
+
+        entity = listGetQuery('Trans_Act')
+
+        //Join 1
+        var entityChild = new Entity('Transacciones');
+
+        var fields = [];
+
+        fields.push('FK_Proyecto.Id_Proyecto.Proyecto.select.Id.Nombre');
+
+        entityChild = listFields(fields, entityChild);
+
+        var atrMain = new Attribute('FK_Transacciones', "", "", 'FK_Transacciones');
+
+        var atrChild = new Attribute('Id', "", "", 'Id');
+
+        var selectJoin = new selectJoinEntity(logicalOperator.And, atrMain, atrChild);
+
+        var joins = [];
+
+        joins.push(selectJoin);
+
+        //Join 2
+
+        var entityChild2 = new Entity('Proyecto');
+
+        var fields2 = [];
+
+        fields2.push('FP_init.F_Planeada_Inicio.string.inputDate');
+        fields2.push('FP_fin.F_Planeada_Fin.string.inputDate');
+
+        entityChild2 = listFields(fields2, entityChild2);
+
+        var atrMain2 = new Attribute('FK_Proyecto', "", "", 'FK_Proyecto');
+
+        var atrChild2 = new Attribute('Id', "", "", 'Id');
+
+        var selectJoin2 = new selectJoinEntity(logicalOperator.And, atrMain2, atrChild2);
+
+        var joins2 = [];
+
+        joins2.push(selectJoin2);
+
+        var join2 = new JoinEntity(entityChild2, JoinType.Inner, logicalOperator.And, joins2);
+
+        entityChild.ChildEntities.push(join2)
+
+        //Join 3
+        var entityChild3 = new Entity('Transacciones');
+
+        var fields3 = [];
+
+        fields3.push('Id.Clave.int.input');
+        fields3.push('Duracion.Duracion.Duracion.input');
+
+        entityChild3 = listFields(fields3, entityChild3);
+
+        var atrMain3 = new Attribute('FK_Actividades', "", "", 'FK_Actividades');
+
+        var atrChild3 = new Attribute('Id', "", "", 'Id');
+
+        var selectJoin3 = new selectJoinEntity(logicalOperator.And, atrMain3, atrChild3);
+
+        var joins3 = [];
+
+        joins3.push(selectJoin3);
+
+
+
+        var join = new JoinEntity(entityChild, JoinType.Inner, logicalOperator.And, joins);
+
+        entity.ChildEntities.push(join)
+
+
+        var join3 = new JoinEntity(entityChild3, JoinType.Inner, logicalOperator.And, joins3);
+
+        entity.ChildEntities.push(join3)
+
+
+        //Fin de Joins
+
+        var WhereAttr;
+        var lwhere = [];
+
+        WhereAttr = $.extend({}, entity.Attributes[0]);
+
+        WhereAttr.AttrValue = id;
+
+        var where = new Where(WhereAttr, whereOperator.Equal);
+        lwhere.push(where);
+
+
+        var lGroupWhere = [];
+        var groupWhere = new GroupWhere(logicalOperator.And, lwhere, logicalOperator.And);
+
+        lGroupWhere.push(groupWhere);
+        entity.GroupWheres = lGroupWhere;
+
+        wsGetListEntity(entity, function (val) {
+            if (val != undefined) {
+
+            }
+        });
+
+    } catch (e) {
+        console.error(e.Message);
+    }
+}

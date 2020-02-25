@@ -14,14 +14,7 @@ $(document).ready(function () {
 });
 
 var modal = document.getElementById('id01');
-
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function (event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
+//onclick = "document.getElementById('id01').style.display = 'none'"
 
 $(document).ready(function () {
 
@@ -108,9 +101,7 @@ function closeAllSelect(elmnt) {
     document.addEventListener("click", closeAllSelect);
 }
 
-
-
-function changeModule(module) {
+function changeModule(module, secundary = "") {
     var i;
     var x = document.getElementsByClassName("module");
 
@@ -118,10 +109,48 @@ function changeModule(module) {
         x[i].style.display = "none";
     }
 
+    if (module.localeCompare('Proyecto') != 0) {
+        var y = document.getElementById('gantt');
+        y.style.display = "none";
+    }
+    else {
+        var y = document.getElementById('gantt');
+        y.style.display = "block";
+
+    }
     document.getElementById(module).style.display = "block";
     ActiveList = module;
+    
     boolTest = true;
     getListEntityMain(module, "table", 'Yes');
+    try {
+        if (secundary != '') {
+            SecundaryList = secundary.split('/');
+        }
+        else {
+            SecundaryList = [];
+        }
+        if (SecundaryList.length > 0) {
+            var k = 0;
+            for (k = 0; k < SecundaryList.length; k++) {
+
+                getListEntityMain(SecundaryList[k], "table" + (k + 1).toString(), 'No');
+                document.getElementById('SecundaryTag').innerHTML = SecundaryList[k];
+                document.getElementById('SecundaryTag').style.display = 'block';
+                document.getElementById('table1').style.display = 'block';
+            }
+
+        }
+        else {
+
+            document.getElementById('SecundaryTag').innerHTML = '';
+            document.getElementById('SecundaryTag').style.display = 'none';
+            document.getElementById('table1').style.display = 'none';
+        }
+    }
+    catch(e){
+
+    }
 }
 
 format = function date2str(x, y) {

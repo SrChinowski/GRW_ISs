@@ -1,40 +1,64 @@
-﻿
-function getFields(val) { //Listo
+﻿function getFields(val) { //Listo
     //El valor de Id del registro siempre se tiene que poner primero
     var fields = [];
 
-    switch (val)
-    {
+    switch (val) {
         case "Proyecto":
             fields.push('Id.Clave.int.input');
-            fields.push('Nombre.Nombre.Nombre.input');
-            fields.push('FP_init.FP_init.string.inputDate');
-            fields.push('FP_fin.FP_fin.string.inputDate');
-            fields.push('FR_init.FR_init.string.inputDate');
-            fields.push('FR_fin.FR_fin.string.inputDate');
+            fields.push('Nombre.Nombre.Nombre.select');
+            fields.push('FP_init.F_Planeada_Inicio.string.inputDate');
+            fields.push('FP_fin.F_Planeada_Fin.string.inputDate');
+            fields.push('FR_init.F_Real_Inicio.string.inputDate');
+            fields.push('FR_fin.F_Real_Fin.string.inputDate');
             fields.push('TiempoEst.TiempoEst.TiempoEst.input');
             break;
         case "ActividadesLog":
             fields.push('Id.Clave.int.input');
+            fields.push('Nombre.Nombre.Nombre.select');
+            fields.push('FK_Proyecto.Proyecto.Proyecto.select.Id.Nombre');
             fields.push('Estatus.Estatus.Estatus.input');
-            fields.push('FP_init.FP_init.string.inputDate');
-            fields.push('FP_fin.FP_fin.string.inputDate');
-            fields.push('FR_init.FR_init.string.inputDate');
-            fields.push('FR_fin.FR_fin.string.inputDate');
-            fields.push('FK_Actividades.Cuenta.Actividades.input');
-            fields.push('FK_Proyecto.Clave.Proyecto.input');
+            fields.push('FP_init.F_Planeada_Inicio.string.inputDate');
+            fields.push('FP_fin.F_Planeada_Fin.string.inputDate');
+            fields.push('FR_init.F_Real_Inicio.string.inputDate');
+            fields.push('FR_fin.F_Real_Fin.string.inputDate');
             break;
-        case "Servicio":
+        case "Servicios":
             fields.push('Id.Clave.int.input');
-            fields.push('Nombre.Nombre.Nombre.input');
+            fields.push('Tipo.Tipo.Tipo.input');
+            fields.push('Descripcion.Descripcion.Descripcion.input');
             break;
 
         case "Actividades":
             fields.push('Id.Clave.int.input');
             fields.push('Nombre.Nombre.Nombre.input');
-            fields.push('Encargado.Encargado.Nombre.input');
-            fields.push('FK_Servicio.FK_Servicio.int.select');
+            fields.push('Duracion.Duracion.Duracion.input');
+            fields.push('FK_Servicio.Servicio.Servicios.select.Id.Tipo');
             break;
+
+        case "Cuenta":
+            fields.push('Id.Clave.int.input');
+            fields.push('Nombre.Nombre.Nombre.input');
+            break;
+
+        case "Vendedor":
+            fields.push('Id.Clave.int.input');
+            fields.push('Nombre.Nombre.Nombre.input');
+            break;
+
+        case "Transacciones":
+            fields.push('Id.Clave.int.input');
+            fields.push('F_Cap.F_Captura.string.inputDate');
+            fields.push('F_Reg.F_Registro.string.inputDate');
+            break;
+
+        case "Trans_Act":
+            fields.push('FK_Transacciones.Id_Transacción.int.input');
+            fields.push('FK_Actividades.Actividades.Actividades.select.Id.Nombre');
+            fields.push('F_init.F_Inicio.string.inputDate');
+            fields.push('F_fin.F_fin.string.inputDate');
+            fields.push('FK_Vendedor.Vendedor.Vendedor.select.Id.Nombre');
+            break;
+
     };
 
 
@@ -47,37 +71,64 @@ function getFieldsWithChilds(val) { //Nueva Listo
     switch (val) {
         case "Proyecto":
             fields.push('Id.Clave.int.input');
-            fields.push('Nombre.Nombre.Nombre.input');
-            fields.push('FP_init.FP_init.string.inputDate');
-            fields.push('FP_fin.FP_fin.string.inputDate');
-            fields.push('FR_init.FR_init.string.inputDate');
-            fields.push('FR_fin.FR_fin.string.inputDate');
+            fields.push('Nombre.Nombre.Nombre.select');
+            fields.push('FK_Cuenta.Cuenta.Cuenta.select.Id.Nombre');
+            fields.push('FK_Servicio.Servicio.Servicios.select.Id.Tipo');
+            fields.push('FP_init.F_Planeada_Inicio.string.inputDate');
+            fields.push('FP_fin.F_Planeada_Fin.string.inputDate');
+            fields.push('FR_init.F_Real_Inicio.string.inputDate');
+            fields.push('FR_fin.F_Real_Fin.string.inputDate');
             fields.push('TiempoEst.TiempoEst.TiempoEst.input');
-            fields.push('FK_Cuenta.Cuenta.Cuenta.select.Id');
-            fields.push('FK_Servicio.Servicio.Servicio.select.Id');
+            fields.push('FK_Vendedor.Vendedor.Vendedor.select.Id.Nombre');
             break;
         case "ActividadesLog":
             fields.push('Id.Clave.int.input');
             fields.push('Estatus.Estatus.Estatus.input');
-            fields.push('FP_init.FP_init.string.inputDate');
-            fields.push('FP_fin.FP_fin.string.inputDate');
-            fields.push('FR_init.FR_init.string.inputDate');
-            fields.push('FR_fin.FR_fin.string.inputDate');
-            fields.push('FK_Actividades.Cuenta.Actividades.input');
-            fields.push('FK_Proyecto.Clave.Proyecto.input');
+            fields.push('FP_init.F_Planeada_Inicio.string.inputDate');
+            fields.push('FP_fin.F_Planeada_Fin.string.inputDate');
+            fields.push('FR_init.F_Real_Inicio.string.inputDate');
+            fields.push('FR_fin.F_Real_Fin.string.inputDate');
+            fields.push('FK_Actividades.Cuenta.Actividades.select.Id.Nombre');
+            fields.push('FK_Proyecto.Clave.Proyecto.select.Id.Nombre');
+            fields.push('FK_Vendedor.Vendedor.Vendedor.select.Id.Nombre');
             break;
 
-            break;
-        case "Servicio":
+        case "Servicios":
             fields.push('Id.Clave.int.input');
-            fields.push('Nombre.Nombre.Nombre.input');
+            fields.push('Tipo.Tipo.Tipo.input');
+            fields.push('Descripcion.Descripcion.Descripcion.input');
             break;
 
         case "Actividades":
             fields.push('Id.Clave.int.input');
             fields.push('Nombre.Nombre.Nombre.input');
-            fields.push('Encargado.Encargado.Nombre.input');
-            fields.push('FK_Servicio.FK_Servicio.int.select');
+            fields.push('Duracion.Duracion.Duracion.input');
+            fields.push('FK_Servicio.Servicio.Servicios.select.Id.Tipo');
+            break;
+
+        case "Cuenta":
+            fields.push('Id.Clave.int.input');
+            fields.push('Nombre.Nombre.Nombre.input');
+            break;
+
+        case "Vendedor":
+            fields.push('Id.Clave.int.input');
+            fields.push('Nombre.Nombre.Nombre.input');
+            break;
+
+        case "Transacciones":
+            fields.push('Id.Clave.int.input');
+            fields.push('F_Cap.F_Captura.string.inputDate');
+            //fields.push('F_Reg.F_Registro.string.inputDate');
+            fields.push('FK_Proyecto.Id_Proyecto.Proyecto.select.Id.Nombre');
+            break;
+
+        case "Trans_Act":
+            fields.push('FK_Transacciones.Id_Transacción.int.input');
+            fields.push('FK_Actividades.Actividad.Actividades.select.Id.Nombre');
+            fields.push('F_init.F_Inicio.string.inputDate');
+            fields.push('F_fin.F_fin.string.inputDate');
+            fields.push('FK_Vendedor.Vendedor.Vendedor.select.Id.Nombre');
             break;
 
     };
@@ -143,7 +194,22 @@ function getChildEntities(val) { // Listo
             entity.push(join);
 
             break;
-        case "Services":
+        case "Transacciones":
+
+            //Transacciones
+            var entChildEntity = new Entity('Proyecto');
+            var fields = [];
+            fields.push('Id.IdProyecto.Proyecto.select');
+            entChildEntity = listFields(fields, entChildEntity);
+
+            var atrMain = new Attribute('Id', "", "Proyecto", 'Id', 'select');
+            var atrChild = new Attribute('Id', "", "Proyecto", 'Id', 'select');
+            var selectJoin = new selectJoinEntity(logicalOperator.And, atrMain, atrChild);
+            var joins = [];
+            joins.push(selectJoin);
+
+            var join = new JoinEntity(entChildEntity, JoinType.Left, logicalOperator.And, joins);
+            entity.push(join);
 
             break;
     };
